@@ -1,0 +1,122 @@
+<div class="container" style="padding-block-start: 1rem">
+<div class="con-1">
+  <h4>User Details</h4>
+
+  <table class="table table-striped text-center">
+    <tr>
+      <th style="border: 2px solid gainsboro" scope="col">User email</th>
+      <td style="border: 1px solid gainsboro">{{ userName }}</td>
+    </tr>
+    <tr>
+      <th style="border: 2px solid gainsboro" scope="col">User Name</th>
+      <td style="border: 1px solid gainsboro">{{ name }}</td>
+    </tr>
+    <tr>
+      <th style="border: 2px solid gainsboro" scope="col">User Role</th>
+      <td style="border: 1px solid gainsboro">{{ roleName }}</td>
+    </tr>
+
+    <th style="border: 2px solid gainsboro" scope="col">Change Password</th>
+    <td style="border: 1px solid gainsboro">
+      <button
+        type="button"
+        class="btn btn-dark"
+        style="margin-inline-end: 1rem"
+        (click)="setUpdate(userName)"
+      >
+        Edit
+      </button>
+    </td>
+  </table>
+</div>
+
+<div class="overlay" *ngIf="show" (click)="closeoverlay($event)">
+  <div class="content" style="margin-inline: 25rem">
+    <div
+      style="
+        background-color: white;
+        padding-block-start: 1rem;
+        padding-block-end: 1rem;
+        margin-block-start: 0.5rem;
+        margin-block-end: 2rem;
+        padding-inline: 2rem;
+        border-radius: 2rem;">
+      <div class="row">
+        <div class="close()" (click)="closepopup()" style="color: red">
+          &times;
+        </div>
+        <div class="col-md-12">
+          <br />
+          <form name="form" novalidate>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="email"
+                  >User Email<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="userName"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="email"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="name"
+                  >Name<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  [(ngModel)]="name"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="name"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="password"
+                  >Password<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="password"
+                  [(ngModel)]="password"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="password"
+                />
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button
+                type="submit"
+                style="
+                  padding-inline: 3rem;
+                  background-color: #252525;
+                  block-size: 48px;
+                  margin-block: 2rem;
+                  inline-size: 343px;
+                  inset-inline-start: 30px;
+                  inset-block-start: 30px;
+                  border-radius: 38px;
+                  padding: 12px 104px 12px 104px;
+                  color: white;"
+                (click)="submit()">
+                Save
+              </button>
+            </div>
+          </form>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

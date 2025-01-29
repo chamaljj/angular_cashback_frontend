@@ -1,0 +1,44 @@
+<div class="header text-center">
+<h3>All Customers Details</h3>
+<div *ngIf="isResultLoaded" class="spinner">
+  <img src="assets/loadingGIF.gif" alt="Loading...">
+</div>
+
+</div>
+<div *ngIf="!isResultLoaded">
+
+<div class="container text-center" >
+  <tr>
+    <td>
+      <div class="search-hero" > <input class="form-control" type="text" name="search"
+        [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442; Search" ></div>
+    </td>
+  </tr>
+  <br>
+
+<table class="table table-striped text-center">
+  <thead>
+    <tr >
+      <th style="border: 2px solid gainsboro; padding-inline: 1rem;" scope="col">Customer Id(CIF)</th>
+      <th style="border: 2px solid gainsboro; padding-inline: 1rem;" scope="col">Cashback Id</th>
+      <th style="border: 2px solid gainsboro; padding-inline: 1rem;" scope="col">Active Status</th>
+      <th style="border: 2px solid gainsboro; padding-inline: 1rem;" scope="col">Created Date</th>
+      <th style="border: 2px solid gainsboro; padding-inline: 1rem;" scope="col">Last Modified Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let Customer of CustomerArray | paginate: { itemsPerPage: 5, currentPage: p}| filter:searchText ">
+      <th style="border: 1px solid gainsboro;" class="text-" scope="row">{{Customer.customerId}}</th>
+      <td style="border: 1px solid gainsboro;">{{Customer.cashbackId}}</td>
+      <th style="border: 1px solid gainsboro;">{{Customer.status}}</th>
+      <td style="border: 1px solid gainsboro; padding-inline: 2rem;">{{Customer.createdDate | date : "medium"}}</td>
+      <td style="border: 1px solid gainsboro; padding-inline: 2rem;">{{Customer.modifiedDate | date : "medium"}}</td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<div class="text-right">
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+</div>
+</div>

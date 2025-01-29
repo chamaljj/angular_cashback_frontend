@@ -1,0 +1,55 @@
+.container{
+    background-color: white;
+    padding-inline:2rem;
+    position: static;
+    margin-block-start: 100px;
+    margin-block-end: 10px;
+    margin-inline: 0rem;
+    border-radius: 10px;
+    padding-block: 20px;
+}
+
+.header{
+    margin-block-start: 10px;
+}
+
+.overlay{
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 110%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.925)
+}
+
+.content{
+    inline-size: 1200px;
+    block-size: 720px;
+    padding: 100px;
+}
+
+
+  .but-submit{
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color:#3f51b5;
+    border-radius: 15px;
+    color: #ffffff;
+    border-color: #3f51b5;
+    padding-inline: 3rem;
+    block-size: 48px;
+    margin-block: 2rem;
+    inline-size: 343px;
+    inset-inline-start: 30px;
+    inset-block-start: 30px;
+    padding: 12px 104px 12px 104px;
+  }
+
+  .but-submit:hover {
+    background-color: #ffffff;
+    color: #3f51b5;
+    border-color: #3f51b5;
+  }

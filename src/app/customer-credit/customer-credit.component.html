@@ -1,0 +1,47 @@
+<h3 class="text-center">All Customer Credit Details</h3>
+<div *ngIf="isResultLoaded" class="spinner text-center">
+  <img src="assets/loadingGIF.gif" alt="Loading...">
+</div>
+<div *ngIf="!isResultLoaded">
+<div class="container text-center">
+    <tr>
+      <td>
+        <div class="search-hero" > <input class="form-control" type="text" name="search"
+          [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Search"></div>
+      </td>
+    </tr>
+    <br>
+
+  <table class="table table-striped text-center">
+    <thead>
+      <tr >
+        <th style="border: 2px solid gainsboro;" scope="col">Tran. Id</th>
+        <th style="border: 2px solid gainsboro;" scope="col">Customer Acnt No</th>
+        <th style="border: 2px solid gainsboro;" scope="col">Tran. Amount</th>
+        <th style="border: 2px solid gainsboro;" scope="col">Status</th>
+        <th style="border: 2px solid gainsboro;" scope="col">Tran. Type</th>
+        <th style="border: 2px solid gainsboro;" scope="col">Tran. Date</th>
+        <th style="border: 2px solid gainsboro;" scope="col">CIF</th>
+        <th style="border: 2px solid gainsboro;" scope="col">Merchant Name</th>
+        </tr>
+    </thead>
+    <tbody>
+      <tr  style="border: 1px solid gainsboro;" *ngFor="let CustomerCredit of CustomerCreditArray | paginate: { itemsPerPage: 4, currentPage: p}| filter:searchText ">
+        <th  style="border: 1px solid gainsboro;">{{CustomerCredit.tranId}}</th>
+        <td  style="border: 1px solid gainsboro;">{{CustomerCredit.customerAcntNo}}</td>
+        <td  style="border: 1px solid gainsboro;">{{CustomerCredit.txnAmount}}</td>
+        <td  style="border: 1px solid gainsboro;">{{CustomerCredit.status}}</td>
+        <td  style="border: 1px solid gainsboro;">{{CustomerCredit.txnType}}</td>
+        <td  style="border: 1px solid gainsboro;">{{CustomerCredit.txnDate}}</td>
+        <td  style="border: 1px solid gainsboro;">{{CustomerCredit.cif}}</td>
+        <td  style="border: 1px solid gainsboro;">{{CustomerCredit.merchantName}}</td>
+      </tr>
+    </tbody>
+  </table>
+<div class="text-right">
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+</div>
+</div>
+
+

@@ -1,0 +1,54 @@
+<div class="header text-center">
+<h3>All Cashback Details</h3>
+<div *ngIf="isResultLoaded" class="spinner">
+  <img src="assets/loadingGIF.gif" alt="Loading...">
+</div>
+</div>
+<div *ngIf="!isResultLoaded">
+ <div class="container text-center">
+        <tr>
+          <td>
+            <div class="search-hero text-center" > <input class="form-control" type="text" name="search"
+              [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Search"></div>
+          </td>
+        </tr>
+      <table class="table table-striped text-center">
+        <thead>
+          <tr>
+            <th style="border: 2px solid gainsboro;" scope="col">Cashback Id</th>
+            <th style="border: 2px solid gainsboro;" scope="col">Tran. Type</th>
+            <th style="border: 2px solid gainsboro;" scope="col">Merchant wise</th>
+            <th style="border: 2px solid gainsboro;" scope="col">Customer wise</th>
+            <th style="border: 2px solid gainsboro;" scope="col">Min CashBack Amt</th>
+            <th style="border: 2px solid gainsboro;" scope="col">Max CashBack Amt</th>
+            <th style="border: 2px solid gainsboro;" scope="col">CashBack Rate (%)</th>
+            <th style="border: 2px solid gainsboro;" scope="col">Max Tran. Count</th>
+            <th style="border: 2px solid gainsboro;" scope="col">Start Date</th>
+            <th style="border: 2px solid gainsboro;"scope="col">End Date</th>
+            <th style="border: 2px solid gainsboro;" scope="col">Active Status</th>
+            </tr>
+        </thead>
+        <tbody>
+          <tr  style="border: 1px solid gainsboro;" *ngFor="let CashBack of CashbackArray | paginate: { itemsPerPage: 4, currentPage: p}| filter:searchText ">
+            <th  style="border: 1px solid gainsboro;">{{CashBack.id}}</th>
+            <td  style="border: 1px solid gainsboro;" >{{CashBack.tranType}}</td>
+            <td  style="border: 1px solid gainsboro;">{{CashBack.category}}</td>
+            <td  style="border: 1px solid gainsboro;">{{CashBack.customer}}</td>
+            <td  style="border: 1px solid gainsboro;">{{CashBack.minAMT}}</td>
+            <td  style="border: 1px solid gainsboro;">{{CashBack.maxAMT}}</td>
+            <td  style="border: 1px solid gainsboro;">{{CashBack.rate}}</td>
+            <td  style="border: 1px solid gainsboro;">{{CashBack.count}}</td>
+            <td  style="border: 1px solid gainsboro;">{{CashBack.startDate | date:"medium":'UTC'}}</td>
+            <td  style="border: 1px solid gainsboro;">{{CashBack.endDate | date:"medium":'UTC'}}</td>
+            <th  style="border: 1px solid gainsboro;" >{{CashBack.status}}</th>
+          </tr>
+        </tbody>
+      </table>
+
+    <div class="text-right">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+    </div>
+  </div>
+
+

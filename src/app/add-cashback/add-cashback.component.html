@@ -1,0 +1,182 @@
+<div class="container" >
+    <div class="row" >
+        <div class="col-md-12">
+            <h3 >Add CashBack Details</h3>
+    <br>
+    <div style="background-color: white;">
+        <div class="row" style="border-radius: 4rem;">
+        <div class="col-md-3"></div>
+        <div class="col-md-12" style="border-radius: 4rem;" >
+            <div class=" m-6 ">
+                <div class="card-body" >
+
+                    <form name ="cashbackForm" novalidate class="row g-3"  #f="ngForm" (ngSubmit)="f.form.valid && submit()">
+
+                        <div class="col-md-4">
+                            <div class="formGroup">
+                                <label for="tranType">Transaction Type<span style="color: red;">*</span> : </label>
+                                <select type="select"  [(ngModel)]="tranType" class="form-control" id="tranType" required
+                                    name="tranType"
+                                    #tranname="ngModel"
+                                    [ngClass]="{'is-invalid':f.submitted && tranname.invalid  }">
+                                    <i class="fa fa-caret-down" style="cursor: pointer; color: blue;"></i>
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option *ngFor="let item of tranTypeArray" value={{item.tranTypeId}}>{{item.tranTypeId}}. {{item.typeName}}</option>
+
+                                </select>
+                                <div class="invalid-feedback">
+                                    <div>Transaction Type is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formGroup">
+                                <label for="Name">Merchant wise<span style="color: red;">*</span> : </label>
+                                <select type="select"  [(ngModel)]="category"  class="form-control" id="merchant" required
+                                    name="category"
+                                    #merName="ngModel"
+
+                                    [ngClass]="{'is-invalid':f.submitted && merName.invalid  }">
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <div>Merchant wise is required</div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-4">
+                            <div class="formGroup">
+                                <label for="customer">Customer wise<span style="color: red;">*</span> : </label>
+                                <select type="select"  [(ngModel)]="customer" class="form-control" id="customer"  required
+                                name="customer"
+                                #cusName="ngModel"
+                                ng-if="customer!= 'N'"
+                                [ngClass]="{'is-invalid':f.submitted && cusName.invalid  }">
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            <div class="invalid-feedback">
+                                <div>Customer wise is required</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="Name">Min CashBack Amount<span style="color: red;">*</span> : </label>
+                                <input type="number" [(ngModel)]="minAMT"  class="form-control" id="minAMT" required
+                                name="minAMT"
+                                #minAm="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && minAm.invalid } " [min]="0">
+                                <div class="invalid-feedback">
+                                    <div>Min Cashback Amount is required</div>
+                                    <div>Cashback Amt. should be grater than 0</div>
+                                    <div *ngIf="minAm.errors?.['min']">cashback is invalid</div>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="Name">Max CashBack Amount<span style="color: red;">*</span> : </label>
+                                <input type="number" [(ngModel)]="maxAMT"  class="form-control" id="maxAMT" required
+                                name="maxAMT"
+                                #maxAm="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && maxAm.invalid  }" [min]="0">
+                            <div class="invalid-feedback">
+                                <div>Max Cashback Amount is required</div>
+                                <div>Cashback Amt. should be grater than 0</div>
+                                <div *ngIf="maxAm.errors?.['min']">cashback is invalid</div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="Name">CashBack Rate (%)<span style="color: red;">*</span> : </label>
+                                <input type="number" [(ngModel)]="rate"  class="form-control" id="rate" required
+                                name="rate"
+                                #rateName="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && rateName.invalid }" [min]="0">
+                            <div class="invalid-feedback">
+                                <div>Cashback Rate is required</div>
+                                <div>Cashback Rate should be grater than 0</div>
+                                <div *ngIf="rateName.errors?.['min']">cashback is invalid</div>
+                            </div>
+                           </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="count">Max Transaction Count<span style="color: red;">*</span> : </label>
+                                <input type="number" [(ngModel)]="count" class="form-control" id="count" required
+                                name="count"
+                                #countNo="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && countNo.invalid}" [min]="0">
+                            <div class="invalid-feedback">
+                                <div>Max Transaction count is required</div>
+                                <div>Max Tran. count should be grater than 0</div>
+                                <div *ngIf="countNo.errors?.['min']">Cashback is invalid</div>
+                            </div>
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formGroup">
+                                <label for="Name">Start Date<span style="color: red;">*</span> : </label>
+                                <input type="datetime-local" [(ngModel)]="startDate" class="form-control" id="startDate" required
+                                name="startDate"
+                                #startDat="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && startDat.invalid  }">
+                            <div class="invalid-feedback">
+                                <div>Start Date is required</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formGroup">
+                                <label for="Name">End Date<span style="color: red;">*</span> : </label>
+                                <input type="datetime-local" [(ngModel)]="endDate" class="form-control" id="endDate" required
+                                name="endDate"
+                                #endDat="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && endDat.invalid }" >
+
+                            <div class="invalid-feedback">
+                                 <div *ngIf="endDat.errors?.['required']">End Date is required</div>
+                            </div>
+                           </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formGroup">
+                                <label for="status">Active Status<span style="color: red;">*</span> : </label>
+                                <select type="select" [(ngModel)]="status" class="form-control" id="status" required
+                                name="status"
+                                #sName="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && sName.invalid  }">
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="Y" *ngIf="
+                                    userService.roleMatch(['Admin']) ||
+                                    userService.roleMatch(['Super Admin'])
+                                  ">Yes</option>
+                                    <option value="N"
+                                    *ngIf="userService.roleMatch(['Admin']) ||
+                                    userService.roleMatch(['Super Admin']) ||
+                                    userService.roleMatch(['User'])
+                                  ">No</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <div>Active Status is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="button-container">
+                          <button class="but-submit" type='submit'> Save </button>
+                          <button class="but-reset" type='reset'> Reset </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+   </div>
+</div>

@@ -1,0 +1,20 @@
+  .header{
+  margin-block-start: 15px;
+}
+
+  .search-hero {
+    max-inline-size: 800px;
+    padding-block-end: 5px;
+    position: relative;
+    margin-block-end:auto;
+    margin-inline-start: 900px;
+  }
+
+  .container {
+    padding-block-start: 20px;
+    padding-block-end: 10px;
+    color: #000000;
+    position: static;
+    background-color: #ffffff;
+    border-radius: 1.5rem;
+  }

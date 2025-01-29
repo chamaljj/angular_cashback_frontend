@@ -1,0 +1,69 @@
+.container {
+    padding-block-start: 2px;
+    padding-block-end: 10px;
+    color: #405065;
+    position: static;
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+
+.overlay{
+    position: fixed;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 110%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.925)
+}
+
+.content{
+    inline-size: 1200px;
+    block-size: 720px;
+    padding: 100px;
+}
+
+.but-submit{
+  cursor: pointer;               /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition */
+  padding-inline: 3rem;
+  background-color:#3f51b5;
+  block-size: 48px;
+  inline-size: 250px;
+  inset-inline-start: 30px;
+  inset-block-start: 30px;
+  border-radius: 38px;
+  padding: 12px 104px 12px 104px;
+  color: #ffffff;
+  margin-inline-start: 3rem;
+  border-color: #3f51b5;
+}
+
+.but-submit:hover {
+  background-color: #ffffff; /* Darker blue on hover */
+  color: #3f51b5;
+  border-color: #3f51b5;
+}
+
+.but-reset {
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color:#ffffff;
+  block-size: 48px;
+  inline-size: 250px;
+  inset-inline-start: 30px;
+  inset-block-start: 30px;
+  border-radius: 38px;
+  padding: 12px 104px 12px 104px;
+  color: #000000;
+  margin-inline-start: 3rem;
+  border-width: 5px;
+  border-color: #3f51b5;
+}
+
+.but-reset:hover {
+  background-color: #3f51b5;
+  color: white;
+}

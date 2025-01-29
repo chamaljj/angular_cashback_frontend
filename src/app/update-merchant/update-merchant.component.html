@@ -1,0 +1,341 @@
+<div class="header text-center">
+  <h3>All Merchants Details</h3>
+  <div *ngIf="isResultLoaded" class="spinner">
+    <img src="assets/loadingGIF.gif" alt="Loading...">
+  </div>
+
+  </div>
+  <div *ngIf="!isResultLoaded">
+
+  <div class="container text-center" >
+    <tr>
+      <td>
+        <div class="search-hero" > <input class="form-control" type="text" name="search"
+          [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442; Search" ></div>
+      </td>
+    </tr>
+    <br>
+
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Merchant Id
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Cashback Id
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Del_Flag
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Active Status
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Created Date
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Modified Date
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          View
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col"
+          *ngIf="
+            userService.roleMatch(['Admin']) ||
+            userService.roleMatch(['Super Admin'])
+          "> Update
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let Merchant of MerchantArray
+            | filter : searchText
+            | paginate : { itemsPerPage: 3, currentPage: p }">
+        <th style="border: 1px solid gainsboro" class="text-" scope="row">
+          {{ Merchant.mid }}
+        </th>
+        <td style="border: 1px solid gainsboro">{{ Merchant.cashbackId }}</td>
+        <td style="border: 1px solid gainsboro">{{ Merchant.delFlag }}</td>
+        <th style="border: 1px solid gainsboro">{{ Merchant.status }}</th>
+        <td style="border: 1px solid gainsboro; padding-inline: 2rem">
+          {{ Merchant.createdDate | date : "medium" }}
+        </td>
+        <td style="border: 1px solid gainsboro; padding-inline: 2rem">
+          {{ Merchant.modifiedDate | date : "medium" }}
+        </td>
+        <td
+          style="border: 1px solid gainsboro"
+          *ngIf="
+            userService.roleMatch(['User']) ||
+            userService.roleMatch(['Admin']) ||
+            userService.roleMatch(['Super Admin'])">
+          <button
+            mat-mini-fab
+            color="dark"
+            type="button"
+            class="nav-link active"
+            (click)="setAuditDetails(Merchant)"
+            class="btn-dark">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+        <td
+          style="border: 1px solid gainsboro"
+          *ngIf="
+            userService.roleMatch(['Admin']) ||
+            userService.roleMatch(['Super Admin'])">
+          <button
+            mat-mini-fab
+            color="dark"
+            type="button"
+            class="nav-link active"
+            (click)="setUpdate(Merchant)"
+            class="btn-dark">
+            <mat-icon>edit</mat-icon>
+          </button>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <div class="text-right">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+<br />
+
+<div class="overlay" *ngIf="show" (click)="closeoverlay($event)">
+  <div class="content" style="margin-inline: 25rem">
+    <div
+      class="container"
+      style="
+        background-color: white;
+        padding-block-start: 1rem;
+        padding-inline: 2rem;
+        padding-block-end: 1rem;
+        margin-block-start: 0.5rem;
+        margin-block-end: 2rem;
+        border-radius: 2rem;">
+      <div class="row">
+
+        <div class="close" (click)="closepopup()">
+          <span> &times; close </span></div>
+        <div class="col-md-12">
+          <h3 style="text-align: center">Update Merchant Details</h3>
+          <br />
+          <form
+            name="merchantForm"
+            #f="ngForm"
+            (ngSubmit)="f.form.valid && submit()"
+            novalidate
+          >
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="mid"
+                  >Merchant Id<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="mid"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="mid"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="cashbackId"
+                  >Cashback Id<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="number"
+                  disabled="edit"
+                  [(ngModel)]="cashbackId"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+             </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="status"
+                  >Active Status<span style="color: red">*</span> :
+                </label>
+                <select
+                  type="select"
+                  [(ngModel)]="status"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="status"
+                  #sname="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && sname.invalid }">
+                    <option value="" disabled selected>Select an option</option>
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+              </div>
+            </div>
+            <div class="text-center">
+              <button
+                type="submit"
+                class="but-submit">
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="overlay" *ngIf="view" (click)="closeoverlayer($event)">
+  <div class="content-1" style="margin-inline: 25rem">
+    <div
+      style="
+        background-color: white;
+        padding-block-start: 1rem;
+        padding-block-end: 1rem;
+        margin-block-start: 0.5rem;
+        margin-block-end: 2rem;
+        padding-inline: 2rem;
+        border-radius: 2rem;">
+      <div class="row">
+        <div class="close()" (click)="closepopup()" style="color: red">
+          <span> &times; close </span>
+        </div>
+        <div class="col-md-12">
+          <br />
+          <form name="merchantForm" novalidate>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="customerId"
+                  >Merchant Id<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="mid"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="customerId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="cashbackId"
+                  >Cashback Id<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="number"
+                  disabled="Edit"
+                  [(ngModel)]="cashbackId"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="cashbackId"
+                  >Status<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="status"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="cashbackId"
+                  >Created By<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="createdBy"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="cashbackId"
+                  >Created Data<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="createdDate"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="cashbackId"
+                  >Last Modified By<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="modifiedBy"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="cashbackId"
+                  >Last Modified Date<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="modifiedDate"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+            </div>
+          </form>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

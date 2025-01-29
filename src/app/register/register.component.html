@@ -1,0 +1,100 @@
+<div class="container" style="background-color: white; padding-block-start: 2rem;padding-block-end: 2rem;margin-block-start: 2rem;margin-block-end: 2rem;border-radius: 1rem;padding-inline: 2rem;" >
+
+    <div class="row" style="border-radius: 4rem;">
+        <div class="col-md-3"></div>
+        <div class="col-md-12" style="border-radius: 4rem;" >
+            <div class=" m-8">
+                <div class="card-body" >
+                    <div class="col-md-12">
+                        <h3 style="text-align: center;">User Registration</h3>
+                    <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && submit()" novalidate >
+                        <div class="form-row" >
+
+                            <div class="col-md-6">
+                                <div class="formGroup">
+                                <label>User Name<span style="color: red;">*</span> : </label>
+                                <input
+                                    type="text"
+                                    name="uName"
+                                    [(ngModel)]="uName"
+                                    class="form-control"
+                                    required
+                                    #name="ngModel"
+                                    [ngClass]="{'is-invalid':f.submitted && name.invalid  }"
+                                />
+                                <div class="invalid-feedback">
+                                    <div>User Name is required</div>
+                                </div>
+                            </div>
+                     </div>
+
+                            <div class="col-md-6">
+                                <div class="formGroup">
+                                <label>Email<span style="color: red;">*</span> : </label>
+                                <input
+                                    type="text"
+                                    name="userName"
+                                    [(ngModel)]="userName"
+                                    class="form-control"
+                                    email
+                                    required
+                                    #email="ngModel"
+                                    [ngClass]="{'is-invalid':f.submitted && email.invalid}"
+                                />
+                                <div class="invalid-feedback">
+                                   <div>Email is required</div>
+
+                                </div>
+                            </div>
+                            </div>
+                            <br>
+                            <div class="col-md-6">
+                                <div class="formGroup">
+                                <label>Password<span style="color: red;">*</span> : </label>
+                                <input
+                                    type="password"
+                                    name="uPassword"
+                                    [(ngModel)]="uPassword"
+                                    class="form-control"
+                                    required
+                                    minlength="6"
+                                    #password="ngModel"
+                                    [ngClass]="{'is-invalid':f.submitted && password.invalid  }"
+                                />
+                                <div class="invalid-feedback">
+                                    <div *ngIf="password.errors?.['required']">Password is required</div>
+                                    <div *ngIf="password.errors?.['minlength']"> </div>
+                                        Password must be at least 6 characters
+                                    </div>
+                                </div>
+                          </div>
+
+                            <div class="col-md-6">
+                                <div class="formGroup">
+                                <label for="role">User Role<span style="color: red;">*</span> : </label>
+                                <select type="select"  [(ngModel)]="roleName" class="form-control" id="role" required
+                                    name="role"
+                                    #urole="ngModel"
+                                    [ngClass]="{'is-invalid':f.submitted && urole.invalid  }">
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="User">User</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <div>User Role is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-container" >
+                            <button class="but-submit" type='submit'> Save </button>
+                            <button class="but-reset" type='reset'> Reset </button>
+                        </div>
+                        </div>
+                    </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>

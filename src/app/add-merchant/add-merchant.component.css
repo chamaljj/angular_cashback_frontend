@@ -1,0 +1,59 @@
+.success-snackbar {
+  background-color: #4caf50;
+}
+
+.but-submit{
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding-inline: 3rem;
+  background-color:#3f51b5;
+  block-size: 48px;
+  inline-size: 250px;
+  inset-inline-start: 30px;
+  inset-block-start: 30px;
+  border-radius: 15px;
+  border-color: #3f51b5;
+  padding: 12px 104px 12px 104px;
+  color: #ffffff;
+  margin-inline-start: 2rem;
+}
+
+.but-submit:hover {
+  background-color: #fbfdff;
+  color: #3f51b5;
+}
+
+.but-reset {
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color:#ffffff;
+  block-size: 48px;
+  inline-size: 250px;
+  inset-inline-start: 30px;
+  border-radius: 15px;
+  padding: 12px 104px 12px 104px;
+  color: #000000;
+  margin-inline-end: 2rem;
+  border-width: 2px;
+  border-color: #3f51b5;
+}
+
+.but-reset:hover {
+  background-color: #3f51b5;
+  color: white;
+  border-color: #3f51b5;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  padding-block: 2rem;
+}
+
+.but-submit,
+.but-reset {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}

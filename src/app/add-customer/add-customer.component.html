@@ -1,0 +1,66 @@
+<div class="container">
+    <h3 style="text-align: start;">Add Customer Details</h3>
+    <br>
+    <div style="background-color: white;">
+        <div class="row" style="border-radius: 4rem;">
+        <div class="col-md-3"></div>
+        <div class="col-md-12" style="border-radius: 4rem;" >
+            <div class=" m-6 ">
+                <div class="card-body" >
+                    <form  name ="customerForm"  #f="ngForm" (ngSubmit)="f.form.valid && submit()" novalidate >
+                        <div class="form-row mb-3" >
+                            <div class="col-md-6">
+                                <label for="mid">Customer Id<span style="color: red;">*</span> : </label>
+                                <input type="number" [(ngModel)]="customerId" class="form-control" id="customerId" required
+                            name="cid"
+                            #cid="ngModel"
+                            [ngClass]="{'is-invalid':f.submitted && cid.invalid }" [min]="1">
+                            <div class="invalid-feedback">
+                                <div>Customer Id is required</div>
+                            </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cashbackId">Cashback Id<span style="color: red;">*</span> : </label>
+                                <input type="number" [(ngModel)]="cashbackId" class="form-control" id="cashbackId" required
+                                name="id"
+                                #id="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && id.invalid}" [min]="1">
+                                <div class="invalid-feedback">
+                                    <div>Cashback Id is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-3">
+                            <div class="col-md-12">
+                                <label for="status">Active Status<span style="color: red;">*</span> : </label>
+                             <select type="select" [(ngModel)]="status" class="form-control" id="status" required
+                              name="status"
+                              #sname="ngModel"
+                              [ngClass]="{'is-invalid':f.submitted && sname.invalid}" >
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="Y" *ngIf="
+                                userService.roleMatch(['Admin']) ||
+                                userService.roleMatch(['Super Admin'])
+                                ">Yes</option>
+                                <option value="N"
+                                *ngIf="userService.roleMatch(['Admin']) ||
+                                userService.roleMatch(['Super Admin']) ||
+                                userService.roleMatch(['User'])">No</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                <div>Status is required</div>
+                            </div>
+                                </div>
+                            </div>
+                            <div class="button-container">
+                                <button type="submit" class="but-submit">Save</button>
+                                <button type="reset" class="but-reset" >Reset</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+   </div>
+  </div>

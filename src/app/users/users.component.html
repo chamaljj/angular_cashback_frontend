@@ -1,0 +1,91 @@
+
+
+<div class="header text-center">
+  <h3>All Users Details</h3>
+  <div *ngIf="isResultLoaded" class="spinner">
+    <img src="assets/loadingGIF.gif" alt="Loading...">
+  </div>
+  </div>
+
+  <div *ngIf="!isResultLoaded">
+    <div class="container text-center" >
+      <tr>
+        <td> <h5>All Users Details</h5></td>
+        <td>
+          <div class="search-hero" style="margin-left: 500px;" > <input class="form-control" type="text" name="search"
+            [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442; Search" ></div>
+        </td>
+      </tr>
+      <br>
+
+    <table class="table table-striped text-center" >
+
+        <tr >
+          <th style="border: 2px solid gainsboro;" scope="col">User email</th>
+          <th style="border: 2px solid gainsboro;" scope="col">User Name</th>
+          <th style="border: 2px solid gainsboro;" scope="col">Role Type</th>
+          <th style="border: 2px solid gainsboro;" scope="col">Change Password</th>
+          </tr>
+
+        <tbody >
+            <tr  style="border: 1px solid gainsboro;" *ngFor="let User of UserArray | filter:searchText ">
+            <td  style="border: 1px solid gainsboro;" >{{User.userName}}</td>
+            <td  style="border: 1px solid gainsboro;">{{User.name}}</td>
+            <td  style="border: 1px solid gainsboro;">{{User.roleName}}</td>
+            <td style="border: 1px solid gainsboro;"  *ngIf="userService.roleMatch(['Super Admin'])">
+              <button mat-mini-fab color="dark" type="button" class="btn btn-dark" style="margin-inline-end: 1rem;" (click)="setUpdate(User)" ><mat-icon>edit</mat-icon></button>
+            </td>
+
+          </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="overlay" *ngIf="show" (click)="closeoverlay($event)">
+  <div class="content-1" style="margin-inline: 25rem;">
+
+     <div  style="background-color: white; padding-block-start: 1rem;padding-block-end: 1rem;margin-block-start: 0.5rem;
+          margin-block-end: 2rem;padding-inline: 2rem;border-radius:2rem;" >
+      <div class="row" >
+          <div class="close()" (click)="closepopup()" style="color: red;">
+              &times; close
+          </div>
+          <div class="col-md-12">
+
+              <br>
+
+                  <form  name ="merchantForm"  novalidate >
+                  <div class="col-md-12">
+                          <div class="formGroup">
+                              <label for="customerId">User Email<span style="color: red;">*</span> : </label>
+                              <input type="text" disabled="Edit" [(ngModel)]="userName"  [ngModelOptions]="{standalone: true}" class="form-control" id="email" >
+                          </div>
+                  </div>
+
+                  <div class="col-md-12">
+                      <div class="formGroup">
+                          <label for="cashbackId">Name<span style="color: red;">*</span> : </label>
+                          <input type="text" disabled="Edit" [(ngModel)]="name"  [ngModelOptions]="{standalone: true}" class="form-control" id="name" >
+                          </div>
+                  </div>
+
+                <div class="col-md-12">
+                  <div class="formGroup">
+                      <label for="cashbackId">Password<span style="color: red;">*</span> : </label>
+                      <input type="password"  [(ngModel)]="password"  [ngModelOptions]="{standalone: true}" class="form-control" id="password" placeholder="Enter New Password" >
+                      </div>
+              </div>
+
+              <div class="text-center">
+                <button class="but-submit" type='submit' (click)="submit()"> Save </button>
+              </div>
+
+                    </form>
+                    <br>
+              </div>
+          </div>
+       </div>
+      </div>
+  </div>
+</div>

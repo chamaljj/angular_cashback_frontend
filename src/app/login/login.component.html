@@ -1,0 +1,91 @@
+<div class="container" style="background-color: white; padding-block-start: 2rem;padding-block-end: 2rem;margin-block-start: 2rem;margin-block-end: 2rem;border-radius: 1rem;padding-inline: 2rem;" >
+    <div style="background-color: white;">
+        <div class="row" style="border-radius: 4rem;">
+        <div class="col-md-3"></div>
+        <div class="col-md-12" style="border-radius: 4rem;" >
+            <div class=" m-6 ">
+                <div class="card-body" >
+
+                    <div class="col-md-12">
+                        <img src="assets/logo.svg" alt="logo" height="100px" width="200px" style="position: center; margin-left: 50px;" class="mb-3" />
+                        <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && login(f)" novalidate >
+                        <div class="form-row" >
+                            <div class="col-md-12">
+                                <label for="email">Email</label>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                      </span>
+                                    </div>
+                                    <input type="email"
+                                    ngModel
+                                    name="userName"
+                                    #email="ngModel"
+                                    id="userName"
+                                    placeholder="example@dialog.lk"
+                                    class="form-control" required
+                                    [ngClass]="{'is-invalid':f.submitted && email.invalid}"
+                                    />
+                                  </div>
+
+
+                                <div class="invalid-feedback">
+                                     Email is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row mb-2">
+                            <div class="form-group col">
+                                <label>Password</label>
+
+                                <div class="input-group">
+                                    <!-- Change input type to be able to accept dynamic data -->
+                                    <input
+                                      [type]="fieldTextType ? 'text' : 'password'"
+                                      ngModel
+                                      name="password"
+                                      id="password"
+                                      placeholder="Password"
+                                      class="form-control"required
+                                      #password="ngModel"
+                                      [ngClass]="{'is-invalid':f.submitted && password.invalid}"
+                                    />
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">
+                                        <i class="fa"
+                                          [ngClass]="{
+                                            'fa-eye-slash': !fieldTextType,
+                                            'fa-eye': fieldTextType
+                                          }"
+                                          (click)="toggleFieldTextType()">
+                                        </i>
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                <div class="invalid-feedback">
+
+                                    <div *ngIf="password.errors?.['required']">Password is required</div>
+                                    <div *ngIf="password.errors?.['minlength']"> </div>
+                                        Password must be at least 6 characters
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="formGroup mb-2" style="text-align: center;padding-block-start: 1rem;">
+                            <button class="but-submit" type='button' value="Login" style="padding-inline: 3rem; background-color:#363fb4; block-size: 42px;
+                            inline-size: 100%; inset-inline-start: 5px; inset-block-start: 10px; border-radius: 12px; border-width: 0px ;padding: 10px 104px 10px 104px; color: rgb(253, 253, 253); " type="submit"> login </button>
+                          </div>
+                          <div *ngIf="loginError" class="error-message">
+                            {{ loginError }}
+                          </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+   </div>
+   </div>
+   </div>

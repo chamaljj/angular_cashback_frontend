@@ -1,0 +1,314 @@
+<div class="header text-center">
+<h5 >All Cashback Details</h5>
+<div *ngIf="isResultLoaded" class="spinner">
+  <img src="assets/loadingGIF.gif" alt="Loading...">
+
+</div>
+</div>
+<div *ngIf="!isResultLoaded">
+  <div class="container text-center">
+            <tr>
+
+              <td>
+                <div class="search-hero" > <input class="form-control" type="text" name="search"
+                    [(ngModel)]="searchText" autocomplete="on" placeholder="&#61442;  Search"></div>
+                </td>
+
+            </tr>
+
+          <table class="table table-striped text-center">
+            <thead>
+              <tr >
+                <th style="border: 2px solid gainsboro;" scope="col">Cashback Id</th>
+                <th style="border: 2px solid gainsboro;" scope="col">Tran. Type</th>
+                <th style="border: 2px solid gainsboro;" scope="col">Merchant wise</th>
+                <th style="border: 2px solid gainsboro;" scope="col">Customer wise</th>
+                <th style="border: 2px solid gainsboro;" scope="col">Min CashBack Amt</th>
+                <th style="border: 2px solid gainsboro;" scope="col">Max CashBack Amt</th>
+                <th style="border: 2px solid gainsboro;" scope="col">CashBack Rate (%)</th>
+                <th style="border: 2px solid gainsboro;" scope="col">Max Tran. Count</th>
+                <th style="border: 2px solid gainsboro;" scope="col">Start Date</th>
+                <th style="border: 2px solid gainsboro;"scope="col">End Date</th>
+                <th style="border: 2px solid gainsboro;" scope="col">Active Status</th>
+                <th style="border: 2px solid gainsboro;" scope="col" > View </th>
+                <th style="border: 2px solid gainsboro;" scope="col" *ngIf="userService.roleMatch(['Admin'])||userService.roleMatch(['Super Admin'])"> Update </th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr  style="border: 1px solid gainsboro;" *ngFor="let CashBack of CashbackArray | paginate: { itemsPerPage: 2, currentPage: p}| filter:searchText ">
+                <th  style="border: 1px solid gainsboro;">{{CashBack.id}}</th>
+                <td  style="border: 1px solid gainsboro;" >{{CashBack.tranType}}</td>
+                <td  style="border: 1px solid gainsboro;">{{CashBack.category}}</td>
+                <td  style="border: 1px solid gainsboro;">{{CashBack.customer}}</td>
+                <td  style="border: 1px solid gainsboro;">{{CashBack.minAMT}}</td>
+                <td  style="border: 1px solid gainsboro;">{{CashBack.maxAMT}}</td>
+                <td  style="border: 1px solid gainsboro;">{{CashBack.rate}}</td>
+                <td  style="border: 1px solid gainsboro;">{{CashBack.count}}</td>
+                <td  style="border: 1px solid gainsboro;">{{CashBack.startDate | date:"medium":'UTC'}}</td>
+                <td  style="border: 1px solid gainsboro;">{{CashBack.endDate | date: "medium":'UTC'}}</td>
+                <th  style="border: 1px solid gainsboro;">{{CashBack.status}}</th>
+                <td >
+                    <button mat-mini-fab color="dark" type="button" class="nav-link active" (click)="setAuditDetails(CashBack)" class="btn-dark">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                </td>
+                  <td style="border: 1px solid gainsboro;" *ngIf="userService.roleMatch(['Admin']) || userService.roleMatch(['Super Admin'])">
+                      <button mat-mini-fab color="dark" type="button" class="nav-link active" (click)="setUpdate(CashBack)" class="btn-dark">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+
+        <div class="text-right">
+          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+      </div>
+<div class="overlay" *ngIf="show" (click)="closeoverlay($event)" >
+
+   <div class="container1" style="background-color: white;padding-inline:2rem;padding-block-start: 2rem;
+     padding-block-end: 2rem;border-radius: 1.5rem;" >
+    <div class="row" >
+        <div class="close()" (click)="closepopup()" style="color: red;">
+            &times; close
+        </div>
+        <div class="col-md-12">
+            <h3 style="text-align: start;margin-block-end: 1rem;">Update CashBack Details</h3>
+    <br>
+    <div style="background-color: white;">
+        <div class="row" style="border-radius: 4rem;">
+        <div class="col-md-3"></div>
+        <div class="col-md-12" style="border-radius: 4rem;" >
+            <div class=" m-6 ">
+                <div class="card-body" >
+                        <form name ="cashbackForm" novalidate class="row g-3" #f="ngForm" (ngSubmit)="f.form.valid && submit()">
+                      <div class="col-md-3">
+                          <div class="formGroup">
+                             <label for="Name">CashBack Id<span style="color: red;">*</span> : </label>
+                            <input type="number" disabled="edit" [(ngModel)]="id"  [ngModelOptions]="{standalone: true}" class="form-control" id="id" >
+                      </div>
+                       </div>
+                        <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="tranType">Transaction Type<span style="color: red;">*</span> : </label>
+                                <select type="select"  [(ngModel)]="tranType" class="form-control" id="tranType" required
+                                    name="tranType"
+                                    #tranname="ngModel"
+
+                                    [ngClass]="{'is-invalid':f.submitted && tranname.invalid  }">
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option *ngFor="let item of tranTypeArray" value={{item.tranTypeId}}>{{item.tranTypeId}}. {{item.typeName}}</option>
+
+                                </select>
+                                <div class="invalid-feedback">
+                                    <div>Transaction Type is required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="Name">Merchant wise<span style="color: red;">*</span> : </label>
+                                <select type="select" [(ngModel)]="category" class="form-control" id="merchant" required
+                                    name="category"
+                                    #merName="ngModel"
+                                    [ngClass]="{'is-invalid':f.submitted && merName.invalid  }">
+                                    <option ></option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <div>Merchant is required</div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="customer">Customer wise<span style="color: red;">*</span> : </label>
+                                <select type="select" [(ngModel)]="customer" class="form-control" id="customer" required
+                                name="customer"
+                                #cusName="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && cusName.invalid  }">
+                                    <option ></option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                            <div class="invalid-feedback">
+                                <div>Customer Cashback Amount is required</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="Name">Min CashBack Amount<span style="color: red;">*</span> : </label>
+                                <input type="number" [(ngModel)]="minAMT"  class="form-control" id="minAMT" required
+                                name="minAMT"
+                                #minAm="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && minAm.invalid && minAm.value > '0' }">
+
+                            <div class="invalid-feedback">
+                                <div>Min Cashback Amount is required</div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="Name">Max CashBack Amount<span style="color: red;">*</span> : </label>
+                                <input type="number" [(ngModel)]="maxAMT"  class="form-control" id="maxAMT" required
+                                name="maxAMT"
+                                #maxAm="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && maxAm.invalid  }">
+
+                            <div class="invalid-feedback">
+
+                                <div *ngIf="maxAm.errors?.['required']">Max Cashback is required</div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="Name">CashBack Rate (%)<span style="color: red;">*</span> : </label>
+                                <input type="number" [(ngModel)]="rate"  class="form-control" id="rate" required
+                                name="rate"
+                                #rateName="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && rateName.invalid }">
+
+                            <div class="invalid-feedback">
+                                <div>Cashback Rate is required</div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="formGroup">
+                                <label for="count">Max Transaction Count<span style="color: red;">*</span> : </label>
+                                <input type="number" [(ngModel)]="count" class="form-control" id="count" required
+                                name="count"
+                                #countNo="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && countNo.invalid  }">
+
+                            <div class="invalid-feedback">
+                                <div>Max Transaction Count is required</div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formGroup">
+                                <label for="Name">Start Date<span style="color: red;">*</span> : </label>
+                                <input type="datetime-local" [(ngModel)]="startDate" class="form-control" id="startDate" required
+                                name="startDate"
+                                #startDat="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && startDat.invalid  }">
+
+                            <div class="invalid-feedback">
+                                <div *ngIf="startDat.errors?.['required']">Start Date is required</div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formGroup">
+                                <label for="Name">End Date<span style="color: red;">*</span> : </label>
+                                <input type="datetime-local" [(ngModel)]="endDate" class="form-control" id="endDate" required
+                                name="endDate"
+                                #endDat="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && endDat.invalid }" >
+
+                            <div class="invalid-feedback">
+
+                                <div *ngIf="endDat.errors?.['required']">End Date is required</div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="formGroup">
+                                <label for="status">Active Status<span style="color: red;">*</span> : </label>
+                                <select type="select" [(ngModel)]="status" class="form-control" id="status" required
+                                name="status"
+                                #sName="ngModel"
+                                [ngClass]="{'is-invalid':f.submitted && sName.invalid  }">
+                                    <option ></option>
+                                    <option value="Y">Yes</option>
+                                    <option value="N">No</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <div>Active Status is required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="formGroup" style="text-align: center;padding-block: 1.5rem;">
+                            <button class="but-submit"   type='submit' > Save </button>
+                        </div>
+                    </form>
+               </div>
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+</div>
+
+<div class="overlay" *ngIf="view" (click)="closeoverlayer($event)">
+    <div class="content-1" style="margin-inline: 25rem;">
+       <div  style="background-color: white; padding-block-start: 1rem;padding-block-end: 1rem;margin-block-start: 0.5rem;
+            margin-block-end: 2rem;padding-inline: 2rem;border-radius:2rem;" >
+        <div class="row" >
+            <div class="close()" (click)="closepopup()" style="color: red;">
+              &times; close
+            </div>
+            <div class="col-md-12">
+                   <form  name ="cashbackForm"  >
+                    <div class="col-md-12">
+                        <div class="formGroup">
+                            <label for="customerId">Cashback Id<span style="color: red;">*</span> : </label>
+                            <input type="number" disabled="Edit" [(ngModel)]="id"  [ngModelOptions]="{standalone: true}" class="form-control" id="customerId" >
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="formGroup">
+                            <label for="cashbackId">Tran type<span style="color: red;">*</span> : </label>
+                            <input type="number" disabled="Edit" [(ngModel)]="tranType"  [ngModelOptions]="{standalone: true}" class="form-control" id="cashbackId" >
+                            </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="formGroup">
+                            <label for="cashbackId">Status<span style="color: red;">*</span> : </label>
+                            <input type="text" disabled="Edit" [(ngModel)]="status"  [ngModelOptions]="{standalone: true}" class="form-control" id="cashbackId" >
+                            </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="formGroup">
+                            <label for="cashbackId">Created By<span style="color: red;">*</span> : </label>
+                            <input type="text" disabled="Edit" [(ngModel)]="createdBy"  [ngModelOptions]="{standalone: true}" class="form-control" id="cashbackId" >
+                            </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="formGroup">
+                            <label for="cashbackId">Created Data<span style="color: red;">*</span> : </label>
+                            <input type="text" disabled="Edit" [(ngModel)]="createdDate"  [ngModelOptions]="{standalone: true}" class="form-control" id="cashbackId" >
+
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="formGroup">
+                            <label for="cashbackId">Last Modified By<span style="color: red;">*</span> : </label>
+                            <input type="text" disabled="Edit" [(ngModel)]="modifiedBy"  [ngModelOptions]="{standalone: true}" class="form-control" id="cashbackId" >
+                            </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="formGroup">
+                            <label for="cashbackId">Last Modified Date<span style="color: red;">*</span>   </label>
+                            <input typeof="text" disabled="Edit" [(ngModel)]="modifiedDate" [ngModelOptions]="{standalone: true}" class="form-control" id="cashbackId" >
+                            </div>
+                    </div>
+                      </form>
+                      <br>
+                </div>
+            </div>
+         </div>
+        </div>
+      </div>

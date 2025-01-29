@@ -1,0 +1,197 @@
+/* sidebar.component.css */
+
+.menu {
+  list-style-type: none;
+  padding: 0;
+}
+
+.menu > li {
+  margin: 10px 0;
+}
+
+.menu > li > a {
+  color: #003564;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  cursor: pointer;
+  background-color: #ffffff;
+  border-color: #0058a5;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.menu > li > a:hover {
+  background-color: #00315c;
+  color: #ffffff;
+}
+
+.submenu {
+  list-style-type: none;
+  padding-left: 15px;
+
+}
+
+.submenu > li > a {
+  color: #000000;
+  text-decoration: none;
+  padding: 8px 0;
+  display: inline-flex;
+}
+
+.submenu > li > a:hover {
+  color: rgb(3, 6, 175);
+}
+
+.extra{
+    flex-grow: 1;
+}
+
+.sidenav-wrapper {
+    position: absolute;
+    inset-block-start: 60px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #eee;
+  }
+
+.mat-sidenav-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mat-sidenav{
+    width: 250px;
+    padding: 20px;
+}
+
+/* Toolbar and General Layout */
+.logo {
+  display: inline-block;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+.block {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.block mat-icon {
+  margin-right: 0.5rem;
+}
+
+/* Role-specific styling */
+.block .Super-Admin {
+  color: #d9534f;
+}
+
+.block .Admin {
+  color: #5bc0de;
+}
+
+.block .User {
+  color: #5cb85c;
+}
+
+/* Button Styling */
+button.mat-mini-fab {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+  margin-inline: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button.mat-mini-fab:hover {
+  background-color: #333333;
+}
+
+/* Button icon color */
+button.mat-mini-fab mat-icon {
+  color: #ffffff;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.alert {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 991.98px) {
+  .logo {
+      font-size: 1.3rem;
+  }
+
+  .block {
+      font-size: 0.9rem;
+      margin-inline-end: 0.5rem;
+  }
+
+  button.mat-mini-fab {
+      margin-inline: 0.3rem;
+  }
+}
+
+

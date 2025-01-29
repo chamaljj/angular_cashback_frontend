@@ -1,0 +1,102 @@
+<mat-toolbar color="primary">
+    <span class="block" mat-icon-button (click)="nav.toggle()" *ngIf="userService.roleMatch(['Super Admin']) ||
+    userService.roleMatch(['Admin']) || (userService.roleMatch(['User']))"><mat-icon>menu</mat-icon></span>
+    <div class="logo" [routerLink]="['home']"><span>CASHBACK</span></div>
+    <div class="extra"></div>
+    <div>
+        <span style="font-weight: bold;margin-inline-end: 1rem;" class="block" *ngIf="userService.roleMatch(['Super Admin'])" >
+            <mat-icon>home</mat-icon>
+            <span>Super Admin</span>
+        </span>
+        <span style="font-weight: bold;margin-inline-end: 1rem;" class="block" *ngIf="userService.roleMatch(['Admin'])" >
+            <mat-icon>home</mat-icon>
+            <span>Admin</span>
+        </span>
+        <span style="font-weight: bold;margin-inline-end: 2rem;" class="block" *ngIf="userService.roleMatch(['User'])"  >
+            <mat-icon>home</mat-icon>
+            <span>User</span>
+        </span>
+        <span style="font-weight: bold;margin-inline-end: 1rem;" class="block" >
+        </span>
+    </div>
+    <div>
+        <button mat-mini-fab color="dark" type="button" style="margin-inline: 1rem" class="nav-link active" type="button" class="btn-dark" routerLink="/register"  *ngIf="userService.roleMatch(['Super Admin'])">
+        <mat-icon>person_add</mat-icon>
+        </button>
+              <button mat-mini-fab color="dark" type="button" class="nav-link active" (click)="logout()" class="btn-dark" *ngIf="userService.roleMatch(['Super Admin']) ||userService.roleMatch(['Admin']) || (userService.roleMatch(['User']))">
+        <mat-icon>logout</mat-icon>
+         </button>
+    </div>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-wrapper">
+  <mat-sidenav #nav mode="over">
+    <div class="sidebar">
+      <ul class="menu">
+        <li>
+          <a (click)="toggleDropdown('cashbackMenu')">Cashback</a>
+
+          <ul *ngIf="dropdowns['cashbackMenu']" class="submenu">
+            <hr>
+            <li><a [routerLink]="['home']" (click)="nav.toggle()"><mat-icon>reorder</mat-icon> View Cashbacks</a></li>
+            <li><a [routerLink]="['add']" (click)="nav.toggle()"><mat-icon>add</mat-icon> Add Cashback</a></li>
+            <li><a [routerLink]="['update']" (click)="nav.toggle()"><mat-icon>update</mat-icon> Update Cashback</a></li>
+            <hr>
+          </ul>
+
+        </li>
+        <li>
+          <a (click)="toggleDropdown('customerMenu')">Customer</a>
+          <ul *ngIf="dropdowns['customerMenu']" class="submenu">
+            <hr>
+            <li><a [routerLink]="['viewCustomer']" (click)="nav.toggle()"><mat-icon>reorder</mat-icon> View Customers</a></li>
+            <li><a [routerLink]="['addCustomer']" (click)="nav.toggle()"><mat-icon>add</mat-icon> Add Customer</a></li>
+            <li><a [routerLink]="['updateCustomer']" (click)="nav.toggle()"><mat-icon>update</mat-icon> Update Customer</a></li>
+            <hr>
+          </ul>
+        </li>
+        <li>
+          <a (click)="toggleDropdown('merchantMenu')">Merchant</a>
+          <ul *ngIf="dropdowns['merchantMenu']" class="submenu">
+            <hr>
+            <li><a [routerLink]="['viewMerchant']" (click)="nav.toggle()"><mat-icon>reorder</mat-icon> View Merchants</a></li>
+            <li><a [routerLink]="['addMerchant']" (click)="nav.toggle()"><mat-icon>add</mat-icon> Add Merchant</a></li>
+            <li><a [routerLink]="['updateMerchant']" (click)="nav.toggle()"><mat-icon>update</mat-icon> Update Merchant</a></li>
+            <hr>
+          </ul>
+        </li>
+        <li>
+          <a (click)="toggleDropdown('customerCreditMenu')">Customer Credit</a>
+          <ul *ngIf="dropdowns['customerCreditMenu']" class="submenu">
+            <hr>
+            <li><a [routerLink]="['customerCredit']" (click)="nav.toggle()"><mat-icon>reorder</mat-icon> View Customer Credits</a></li>
+            <hr>
+          </ul>
+        </li>
+        <li>
+          <a (click)="toggleDropdown('transactionMenu' )">Transaction Type</a>
+          <ul *ngIf="dropdowns['transactionMenu']" class="submenu">
+            <hr>
+            <li><a [routerLink]="['trantype']" (click)="nav.toggle()"><mat-icon>reorder</mat-icon> View Transaction Types</a></li>
+            <hr>
+          </ul>
+        </li>
+        <li>
+          <a (click)="toggleDropdown('userMenu')">User</a>
+          <ul *ngIf="dropdowns['userMenu']" class="submenu">
+            <hr>
+            <li><a *ngIf="userService.roleMatch(['Super Admin'])" [routerLink]="['users']" (click)="nav.toggle()"> <mat-icon>reorder</mat-icon>
+               View Users</a></li>
+            <li><a [routerLink]="['profile']" (click)="nav.toggle()"><mat-icon>person</mat-icon> Profile</a></li>
+            <hr>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+      <router-outlet>
+      </router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

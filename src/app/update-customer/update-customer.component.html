@@ -1,0 +1,336 @@
+<div class="header text-center">
+  <h3>All Customers Details</h3>
+  <div *ngIf="isResultLoaded" class="spinner">
+    <img src="assets/loadingGIF.gif" alt="Loading...">
+  </div>
+
+  </div>
+  <div *ngIf="!isResultLoaded">
+
+    <div class="container text-center" >
+      <tr>
+        <td>
+          <div class="search-hero" > <input class="form-control" type="text" name="search"
+            [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442; Search" ></div>
+        </td>
+      </tr>
+      <br>
+
+
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Customer Id(CIF)
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Cashback Id
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Del_Flag
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Active Status
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Created Date
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          Last Modified Date
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col">
+          View
+        </th>
+        <th
+          style="border: 2px solid gainsboro; padding-inline: 1rem"
+          scope="col"
+          *ngIf="
+            userService.roleMatch(['Admin']) ||
+            userService.roleMatch(['Super Admin'])">
+          Update
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let Customer of CustomerArray
+            | filter : searchText
+            | paginate : { itemsPerPage: 3, currentPage: p }">
+        <th style="border: 1px solid gainsboro" class="text-" scope="row">
+          {{ Customer.customerId }}
+        </th>
+        <td style="border: 1px solid gainsboro">{{ Customer.cashbackId }}</td>
+        <td style="border: 1px solid gainsboro">{{ Customer.delFlag }}</td>
+        <th style="border: 1px solid gainsboro">{{ Customer.status }}</th>
+        <td style="border: 1px solid gainsboro; padding-inline: 2rem">
+          {{ Customer.createdDate | date : "medium" }}
+        </td>
+        <td style="border: 1px solid gainsboro; padding-inline: 2rem">
+          {{ Customer.modifiedDate | date : "medium" }}
+        </td>
+        <td
+          style="border: 1px solid gainsboro">
+          <button
+            mat-mini-fab
+            color="dark"
+            type="button"
+            class="nav-link active"
+            (click)="setAuditDetails(Customer)"
+            class="btn-dark">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+        <td
+          style="border: 1px solid gainsboro"
+          *ngIf="
+            userService.roleMatch(['Admin']) ||
+            userService.roleMatch(['Super Admin'])">
+          <button
+            mat-mini-fab
+            color="dark"
+            type="button"
+            class="nav-link active"
+            (click)="setUpdate(Customer)"
+            class="btn-dark">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <div class="text-right">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+<div class="overlay" *ngIf="show" (click)="closeoverlay($event)">
+  <div class="content" style="margin-inline: 25rem">
+    <div
+      style="
+        background-color: white;
+        padding-block-start: 1rem;
+        padding-block-end: 1rem;
+        margin-block-start: 0.5rem;
+        margin-block-end: 2rem;
+        padding-inline: 2rem;
+        border-radius: 2rem;">
+      <div class="row">
+        <div class="close()" (click)="closepopup()" style="color: red">
+          <span> &times; close </span>
+        </div>
+        <div class="col-md-12">
+          <h3 style="text-align: center">Update Customer Details</h3>
+          <br />
+          <form
+            name="customerForm"
+            #f="ngForm"
+            (ngSubmit)="f.form.valid && submit()"
+            novalidate>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="customerId"
+                  >Customer Id<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="number"
+                  disabled="Edit"
+                  [(ngModel)]="customerId"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="customerId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="cashbackId"
+                  >Cashback Id<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="number"
+                  disabled="Edit"
+                  [(ngModel)]="cashbackId"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="status"
+                  >Active Status<span style="color: red">*</span> :
+                </label>
+                <select
+                  type="select"
+                  [(ngModel)]="status"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="status"
+                  #sname="ngModel"
+                  [ngClass]="{ 'is-invalid': f.submitted && sname.invalid }">
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+              </div>
+            </div>
+            <div class="text-center" style="margin-top: 15px;">
+              <button
+                type="submit"
+                class="but-submit">
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" *ngIf="view" (click)="closeoverlayer($event)">
+  <div class="content-1" style="margin-inline: 25rem">
+    <div
+      style="
+        background-color: white;
+        padding-block-start: 1rem;
+        padding-block-end: 1rem;
+        margin-block-start: 0.5rem;
+        margin-block-end: 2rem;
+        padding-inline: 2rem;
+        border-radius: 2rem;">
+      <div class="row">
+        <div class="close()" (click)="closepopup()" style="color: red">
+          <span> &times; close </span>
+        </div>
+        <div class="col-md-12">
+          <br />
+          <form
+            name="customerForm"
+            #f="ngForm"
+            (ngSubmit)="f.form.valid && submit()"
+            novalidate>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="customerId"
+                  >Customer Id<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="number"
+                  disabled="Edit"
+                  [(ngModel)]="customerId"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="customerId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="cashbackId"
+                  >Cashback Id<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="number"
+                  disabled="Edit"
+                  [(ngModel)]="cashbackId"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="status"
+                  >Status<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="status"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="cashbackId"
+                  >Created By<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="createdBy"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                  id="cashbackId"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="createdDate"
+                  >Created Data<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="createdDate"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="modifiedBy"
+                  >Last Modified By<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="modifiedBy"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="formGroup">
+                <label for="modifiedDate"
+                  >Last Modified Date<span style="color: red">*</span> :
+                </label>
+                <input
+                  type="text"
+                  disabled="Edit"
+                  [(ngModel)]="modifiedDate"
+                  [ngModelOptions]="{ standalone: true }"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </form>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+
+.header{
+  margin-block-start: 15px;
+
+}
+.container {
+    padding-block-start: 20px;
+    padding-block-end: 10px;
+    color: #000000;
+    position: static;
+    background-color: #ffffff;
+    border-radius: 10px;
+  }
+
+  .search-hero {
+    max-inline-size: 800px;
+    padding-block-end: 10px;
+    position: relative;
+    margin-block-end:auto;
+    margin-left: 900px;
+  }
+
+  .form-control {
+    box-shadow: 0 5px 5px 0 #B0C1D9;
+  }
+
+  .form-control::placeholder  {
+    font-family: FontAwesome;
+  }
